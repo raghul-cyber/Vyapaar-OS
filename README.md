@@ -1,8 +1,8 @@
 # Vyapaar OS
 **AI Financial OS for MSMEs**
 
-![License](https://img.shields.io/badge/license-%5BInsert%20License%20Here%5D-blue.svg)
-*Made for [Insert Hackathon Name Here]*
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+*Made for iQOO hackathon*
 
 ## 2. 30-Second Pitch
 VyapaarOS is an intelligent financial operating system built natively for Indian MSMEs. It transforms raw transactional data into deterministic, explainable financial intelligence, providing real-time credit scoring, runway forecasting, and interactive cash-flow simulations. Unlike generic "AI wrappers", VyapaarOS relies entirely on a deterministic mathematical core to compute numbers—guaranteeing zero fabricated metrics—while utilizing local LLMs solely for generating plain-language narratives.
@@ -278,7 +278,7 @@ To ensure credibility and adhere strictly to scope boundaries, the following ori
 **Step 8:** (Resilience) Toggle your network to "Offline" or manually flip the LLM provider to `none` in the backend, proving that the localized deterministic fallback narrative engine runs flawlessly.
 
 ## 16. License
-[Insert License Here]
+MIT
 
 ---
 *Last updated: September 2026. Documenting Phase 21 finalization.*
