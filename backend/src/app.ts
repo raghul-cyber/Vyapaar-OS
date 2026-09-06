@@ -55,13 +55,12 @@ app.get('/api/dashboard', asyncHandler(async (req: Request, res: Response) => {
   const rw = runwayDays(cp, br);
   
   const cs = creditScore({
-    businessId: 'b1',
     transactions: txs,
-    invoices: invoices.map(i => ({ ...i, customerId: i.customerId, status: i.status })),
+    invoices: invoices.map((i: any) => ({ ...i, customerId: i.customerId, status: i.status })),
     expenses
   });
   
-  const alerts = rw !== undefined && rw < 30 ? ['Low runway detected!'] : [];
+  const alerts = typeof rw === 'number' && rw < 30 ? ['Low runway detected!'] : [];
   
   const dashboardData = {
     cashPosition: cp,
@@ -98,7 +97,7 @@ app.get('/api/cashflow/forecast', asyncHandler(async (req: Request, res: Respons
   
   const result = forecast({
     currentCash,
-    invoices: invoices.map(i => ({ ...i, customerId: i.customerId, status: i.status })),
+    invoices: invoices.map((i: any) => ({ ...i, customerId: i.customerId, status: i.status })),
     expenses,
     transactions,
     today: new Date()
@@ -148,13 +147,13 @@ app.get('/api/expenses', asyncHandler(async (req: Request, res: Response) => {
   const anomalies = findAnomalousExpenses(expenses);
   const anomalyMap = new Map(anomalies.map(a => [a.expense.id, a.reason]));
   
-  const aggregates = expenses.reduce((acc, curr) => {
+  const aggregates = expenses.reduce((acc: Record<string, number>, curr: any) => {
     acc[curr.category] = (acc[curr.category] || 0) + curr.amount;
     return acc;
   }, {} as Record<string, number>);
   
   res.json({
-    expenses: expenses.map(e => ({ 
+    expenses: expenses.map((e: any) => ({ 
       ...e, 
       isAnomaly: anomalyMap.has(e.id),
       anomalyReason: anomalyMap.get(e.id)

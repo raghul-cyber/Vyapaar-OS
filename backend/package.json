@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
-    "start": "ts-node src/server.ts",
+    "start": "ts-node --transpile-only src/server.ts",
     "test": "vitest",
     "seed": "ts-node prisma/seed.ts",
     "validate-seed": "ts-node scripts/validateSeed.ts"
