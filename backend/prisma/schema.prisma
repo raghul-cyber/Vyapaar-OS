@@ -1,0 +1,119 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Business {
+  id        String   @id @default(cuid())
+  name      String
+  industry  String
+  createdAt DateTime @default(now())
+  
+  customers Customer[]
+  suppliers Supplier[]
+  categories ProductCategory[]
+  invoices  Invoice[]
+  transactions Transaction[]
+  expenses  Expense[]
+  inventory InventoryItem[]
+}
+
+model Customer {
+  id         String   @id @default(cuid())
+  businessId String
+  name       String
+  createdAt  DateTime @default(now())
+  
+  business   Business @relation(fields: [businessId], references: [id])
+  invoices   Invoice[]
+
+  @@index([businessId])
+}
+
+model Supplier {
+  id         String   @id @default(cuid())
+  businessId String
+  name       String
+  createdAt  DateTime @default(now())
+  
+  business   Business @relation(fields: [businessId], references: [id])
+  expenses   Expense[]
+
+  @@index([businessId])
+}
+
+model ProductCategory {
+  id         String   @id @default(cuid())
+  businessId String
+  name       String
+  
+  business   Business @relation(fields: [businessId], references: [id])
+
+  @@index([businessId])
+}
+
+model Invoice {
+  id         String   @id @default(cuid())
+  businessId String
+  customerId String
+  amount     Int
+  issueDate  DateTime
+  dueDate    DateTime
+  status     String // PAID | UNPAID | PARTIAL
+  paidDate   DateTime?
+  paidAmount Int?
+  categoryId String?
+  
+  business   Business @relation(fields: [businessId], references: [id])
+  customer   Customer @relation(fields: [customerId], references: [id])
+
+  @@index([businessId])
+  @@index([customerId])
+}
+
+model Transaction {
+  id               String   @id @default(cuid())
+  businessId       String
+  type             String // INFLOW | OUTFLOW
+  amount           Int
+  date             DateTime
+  source           String // INVOICE_PAYMENT | OTHER_INCOME | SUPPLIER_PAYMENT | EXPENSE | OTHER
+  relatedInvoiceId String?
+  relatedExpenseId String?
+  
+  business         Business @relation(fields: [businessId], references: [id])
+
+  @@index([businessId])
+}
+
+model Expense {
+  id          String   @id @default(cuid())
+  businessId  String
+  supplierId  String?
+  category    String
+  amount      Int
+  date        DateTime
+  isRecurring Boolean
+  
+  business    Business @relation(fields: [businessId], references: [id])
+  supplier    Supplier? @relation(fields: [supplierId], references: [id])
+
+  @@index([businessId])
+}
+
+model InventoryItem {
+  id             String   @id @default(cuid())
+  businessId     String
+  name           String
+  sku            String?
+  quantityOnHand Int
+  unitCost       Int
+  
+  business       Business @relation(fields: [businessId], references: [id])
+
+  @@index([businessId])
+}

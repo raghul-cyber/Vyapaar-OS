@@ -1,0 +1,13 @@
+{
+  "name": "vyapaaros",
+  "private": true,
+  "workspaces": [
+    "backend",
+    "mobile"
+  ],
+  "scripts": {
+    "dev:backend": "npm run dev --workspace=backend",
+    "dev:mobile": "npm run start --workspace=mobile",
+    "test:backend": "npm run test --workspace=backend"
+  }
+}
