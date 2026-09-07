@@ -17,7 +17,7 @@ export const app = express();
 
 app.use(express.json());
 
-const allowedOrigins = process.env.CORS_ORIGIN ? process.env.CORS_ORIGIN.split(',') : ['http://localhost:8081'];
+const allowedOrigins = process.env.CORS_ORIGIN ? process.env.CORS_ORIGIN.split(',') : [/http:\/\/localhost:\d+/];
 app.use(cors({ origin: allowedOrigins }));
 
 // Error wrapper for async routes
@@ -36,7 +36,8 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   }
   
   try {
-    jwt.verify(token, process.env.JWT_SECRET || 'dev-secret');
+    const secret = process.env.SESSION_SECRET || process.env.JWT_SECRET || 'dev-secret';
+    jwt.verify(token, secret);
     next();
   } catch (e) {
     return res.status(401).json({ error: 'Invalid token', code: 'INVALID_TOKEN' });
