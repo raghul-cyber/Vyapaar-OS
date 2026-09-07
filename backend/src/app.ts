@@ -58,7 +58,11 @@ app.get('/api/dashboard', asyncHandler(async (req: Request, res: Response) => {
   const cs = creditScore({
     transactions: txs,
     invoices: invoices.map((i: any) => ({ ...i, customerId: i.customerId, status: i.status })),
-    expenses
+    expenses,
+    monthlyRevenue: [10000, 12000, 11000, 13000],
+    monthlyNetCashFlow: [2000, 2500, 1800, 3000],
+    customerRevenues: [{ customerId: 'c1', totalRevenue: 50000 }],
+    today: new Date()
   });
   
   const alerts = typeof rw === 'number' && rw < 30 ? ['Low runway detected!'] : [];
