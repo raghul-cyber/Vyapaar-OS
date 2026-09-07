@@ -60,7 +60,6 @@ test('creditScore - changing ONLY payment behaviour input changes ONLY payment b
   };
   
   const resBefore = creditScore(paramsBefore);
-  const scoresBefore = resBefore._debugSubScores;
   
   // Add a very late invoice to drastically change payment behaviour
   const invoicesAfter: Invoice[] = [
